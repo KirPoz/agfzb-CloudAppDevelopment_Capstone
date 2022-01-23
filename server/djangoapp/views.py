@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
-from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf
+from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf, get_dealers_by_state
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -106,13 +106,25 @@ def registration_request(request):
 #        return HttpResponse(dealer_names)
 
 
+#def get_dealerships(request):
+#    if request.method == "GET":
+#        url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/review?dealerId="
+#        dealerId = '15'
+#        # Get dealers from the URL
+#        dealerships_by_id = get_dealer_reviews_from_cf(url = url, dealerId = dealerId)
+#        # Concat all dealer's short name
+#        dealer_names = ' '.join([dealer.name for dealer in dealerships_by_id])
+#        # Return a list of dealer short name
+#        return HttpResponse(dealer_names)
+
 def get_dealerships(request):
     if request.method == "GET":
-        url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/review?dealerId="
+        url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership?state="
+        state = 'CA'
         # Get dealers from the URL
-        dealerships_by_id = get_dealer_reviews_from_cf(url, '15')
+        dealerships_by_state = get_dealers_by_state(url = url, state = state)
         # Concat all dealer's short name
-        dealer_names = ' '.join([dealer.name for dealer in dealerships_by_id])
+        dealer_names = ' '.join([dealer.short_name for dealer in dealerships_by_state])
         # Return a list of dealer short name
         return HttpResponse(dealer_names)
 
