@@ -1,4 +1,3 @@
-
 import sys
 from django.utils.timezone import now
 try:
@@ -18,8 +17,8 @@ from django.conf import settings
 # - __str__ method to print a car make object
 
 class CarMake(models.Model):
-    care_name = models.CharField(max_length=1000)
-    car_description = models.CharField(max_length=1000)
+    car_name = models.CharField(max_length=1000, default='')
+    car_description = models.CharField(max_length=1000, default='')
 
     def __str__(self):
         return "Name: " + self.car_name + "," + \
@@ -36,8 +35,8 @@ class CarMake(models.Model):
 # - __str__ method to print a car make object
 
 class CarModel(models.Model):
-    care_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
-    care_name = models.CharField(max_length=1000)
+    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)
+    car_name = models.CharField(max_length=1000, default='')
     dealer_id = models.IntegerField(null=False)
     SEDAN = 'sedan'
     SUS = 'sus'
