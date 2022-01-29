@@ -16,10 +16,10 @@ def get_request(url, **kwargs):
         #response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},auth=HTTPBasicAuth('apikey', api_key))
         if api_key:
             # Basic authentication GET
-            response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},auth=HTTPBasicAuth('apikey', api_key))
+            response = requests.get(url, params=kwargs, headers={'Content-Type': 'application/json'},auth=HTTPBasicAuth('apikey', api_key))
         else:
             # no authentication GET
-            response = requests.get(url, headers={'Content-Type': 'application/json'},params=kwargs)
+            response = requests.get(url, params=kwargs, headers={'Content-Type': 'application/json'})
     except:
         # If any error occurs
         print("Network exception occurred")
@@ -61,8 +61,8 @@ def get_dealers_from_cf(url, **kwargs):
 def get_dealers_by_state(url=None, state=None):
     results = []
     # Call get_request with a URL parameter
-    url = url + state
-    json_result = get_request(url)
+    #url = url + state
+    json_result = get_request(url, state=state)
     if json_result:
         # Get the row list in JSON as dealers
         dealers = json_result["rows"]
@@ -83,8 +83,7 @@ def get_dealers_by_state(url=None, state=None):
 def get_dealers_by_id(url=None, dealerId=None):
     results = []
     # Call get_request with a URL parameter
-    url = url + str(dealerId)
-    json_result = get_request(url)
+    json_result = get_request(url, dealerId=dealerId)
     if json_result:
         # Get the row list in JSON as dealers
         dealers = json_result["rows"]
@@ -109,8 +108,7 @@ def get_dealers_by_id(url=None, dealerId=None):
 def get_dealer_reviews_from_cf(url=None, dealerId=None):
     results = []
     # Call get_request with a URL parameter
-    url = url + str(dealerId)
-    json_result = get_request(url)
+    json_result = get_request(url, dealerId=dealerId)
     if json_result:
         # Get the row list in JSON as dealers
         dealers = json_result["rows"]
@@ -151,6 +149,7 @@ def get_dealer_reviews_from_cf(url=None, dealerId=None):
 # def analyze_review_sentiments(text):
 # - Call get_request() with specified arguments
 # - Get the returned sentiment label such as Positive or Negative
+
 
 
 
