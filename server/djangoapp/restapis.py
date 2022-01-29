@@ -77,7 +77,7 @@ def get_dealers_by_state(url=None, state=None):
 def get_dealers_by_id(url=None, dealerId=None):
     results = []
     # Call get_request with a URL parameter
-    url = url + dealerId
+    url = url + str(dealerId)
     json_result = get_request(url)
     if json_result:
         # Get the row list in JSON as dealers
@@ -103,7 +103,7 @@ def get_dealers_by_id(url=None, dealerId=None):
 def get_dealer_reviews_from_cf(url=None, dealerId=None):
     results = []
     # Call get_request with a URL parameter
-    url = url + dealerId
+    url = url + str(dealerId)
     json_result = get_request(url)
     if json_result:
         # Get the row list in JSON as dealers
@@ -112,11 +112,30 @@ def get_dealer_reviews_from_cf(url=None, dealerId=None):
         for dealer in dealers:
             # Get its content in `doc` object
             dealer_doc = dealer
+            # Extracting values from json
+            try: car_make = dealer_doc["car_make"]
+            except Exception: car_make = "None"
+            try: car_model = dealer_doc["car_model"]
+            except Exception: car_model = "None"
+            try: car_year = dealer_doc["car_year"]
+            except Exception: car_year = "None"
+            try: dealership = dealer_doc["dealership"]
+            except Exception: dealership = "None"
+            try: id = dealer_doc["id"]
+            except Exception: id = "None"
+            try: name = dealer_doc["name"]
+            except Exception: name = "None"
+            try: purchase = dealer_doc["purchase"]
+            except Exception: purchase = "None"
+            try: purchase_date = dealer_doc["purchase_date"]
+            except Exception: purchase_date = "None"
+            try: review = dealer_doc["review"]
+            except Exception: review = "None"
             # Create a CarDealer object with values in `doc` object
-            dealer_obj = DealerReview(car_make=dealer_doc["car_make"], car_model=dealer_doc["car_model"], car_year=dealer_doc["car_year"],
-                                   dealership=dealer_doc["dealership"], id=dealer_doc["id"], name=dealer_doc["name"],
-                                   purchase=dealer_doc["purchase"],
-                                   purchase_date=dealer_doc["purchase_date"], review=dealer_doc["review"])
+            dealer_obj = DealerReview(car_make=car_make, car_model=car_model, car_year=car_year,
+                                   dealership=dealership, id=id, name=name,
+                                   purchase=purchase,
+                                   purchase_date=purchase_date, review=review)
             results.append(dealer_obj)
 
     return results

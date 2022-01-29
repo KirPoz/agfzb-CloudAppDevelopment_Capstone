@@ -87,6 +87,5 @@ class DealerReview:
         self.purchase_date = purchase_date
         self.review = review
 
-
     def __str__(self):
         return "Dealer name: " + self.name
