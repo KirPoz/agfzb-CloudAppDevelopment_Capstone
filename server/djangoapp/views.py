@@ -140,7 +140,8 @@ def get_dealer_details(request, dealer_id):
         # Concat all dealer's short name
         dealer_review = ' '.join([dealer.review for dealer in dealer_details_by_id])
         # Return a list of dealer short name
-        return HttpResponse(dealer_review)
+        #return HttpResponse(dealer_review)
+        return render(request, 'djangoapp/dealer_details.html', context)
 
 
 # Create a `add_review` view to submit a review
