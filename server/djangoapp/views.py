@@ -113,7 +113,7 @@ def registration_request(request):
 # State 
 #def get_dealerships(request):
 #    if request.method == "GET":
-#        url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership?state="
+#        url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership"
 #        state = "CA"
 #        # Get dealers from the URL
 #        dealerships_by_state = get_dealers_by_state(url = url, state = state)
@@ -125,7 +125,7 @@ def registration_request(request):
 # dealerId
 #def get_dealerships(request):
 #    if request.method == "GET":
-#        url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership?dealerId="
+#        url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership"
 #        dealerId = '1'
 #        # Get dealers from the URL
 #        dealerships_by_id = get_dealers_by_id(url = url, dealerId = dealerId)
@@ -139,13 +139,14 @@ def registration_request(request):
 # ...
 def get_dealer_details(request, dealer_id=None):
     if request.method == "GET":
-        url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/review?dealerId="
+        url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/review"
         # Get dealers from the URL
         dealer_details_by_id = get_dealer_reviews_from_cf(url = url, dealerId = dealer_id)
         # Concat all dealer's short name
         dealer_review = ' '.join([dealer.review for dealer in dealer_details_by_id])
+        dealer_sentiment = ' '.join([dealer.sentiment for dealer in dealer_details_by_id])
         # Return a list of dealer short name
-        return HttpResponse(dealer_review)
+        return HttpResponse(dealer_review, dealer_sentiment)
         #return render(request, 'djangoapp/dealer_details.html', context)
 
 
