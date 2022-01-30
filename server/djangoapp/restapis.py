@@ -5,7 +5,7 @@ from requests.auth import HTTPBasicAuth
 import os
 from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from ibm_watson.natural_language_understanding_v1 import Features, SentimentOptions
+from ibm_watson.natural_language_understanding_v1 import Features, KeywordsOptions
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
@@ -146,22 +146,32 @@ def get_dealer_reviews_from_cf(url=None, dealerId=None):
                                    dealership=dealership, id=id, name=name,
                                    purchase=purchase,
                                    purchase_date=purchase_date, review=review)
+            dealer_obj.sentiment = analyze_review_sentiments(dealer_obj.review)
             results.append(dealer_obj)
 
     return results
-
 
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
 # def analyze_review_sentiments(text):
 # - Call get_request() with specified arguments
 # - Get the returned sentiment label such as Positive or Negative
-    def analyze_review_sentiments(text=None):
-        # Authentication
-        authenticator = IAMAuthenticator(APIKEY_LT)
-        natural_language_understanding = NaturalLanguageUnderstandingV1(
-            version=VERSION_LT,
-            authenticator=authenticator)
-        natural_language_understanding.set_service_url(URL_LT)
+def analyze_review_sentiments(text=None):
+    # Authentication
+    authenticator = IAMAuthenticator(APIKEY_LT)
+    natural_language_understanding = NaturalLanguageUnderstandingV1(
+        version=VERSION_LT,
+        authenticator=authenticator)
+
+    natural_language_understanding.set_service_url(URL_LT)
+        
+    response = natural_language_understanding.analyze(
+        text=text,
+        features=Features(
+            keywords=KeywordsOptions(emotion=True, sentiment=True, limit = 1)
+            ),
+        language = 'en').get_result()
+        
+    return response['keywords'][0]['sentiment']['label']
 
 
 
