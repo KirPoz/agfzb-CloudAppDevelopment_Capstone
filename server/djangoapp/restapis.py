@@ -2,6 +2,23 @@ import requests
 import json
 from .models import CarDealer, DealerReview
 from requests.auth import HTTPBasicAuth
+from ibm_watson import NaturalLanguageUnderstandingV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from ibm_watson.natural_language_understanding_v1 import Features, SentimentOptions
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
+
+APIKEY_LT = os.environ.get('APIKEY_LT_ENV', "not found")
+URL_LT = os.environ.get('URL_LT_ENV', "not found")
+VERSION_LT='2018-05-01'
+
+authenticator = IAMAuthenticator(APIKEY_LT)
+natural_language_understanding = NaturalLanguageUnderstandingV1(
+    version=VERSION_LT,
+    authenticator=authenticator
+)
+natural_language_understanding.set_service_url(URL_LT)
 
 
 # Create a `get_request` to make HTTP GET requests
@@ -151,7 +168,7 @@ def get_dealer_reviews_from_cf(url=None, dealerId=None):
 # - Call get_request() with specified arguments
 # - Get the returned sentiment label such as Positive or Negative
     def analyze_review_sentiments(text=None):
-        
+
 
 
 
