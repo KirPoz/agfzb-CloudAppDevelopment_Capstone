@@ -146,7 +146,7 @@ def get_dealer_details(request, dealer_id=None):
         dealer_review = ' '.join([dealer.review for dealer in dealer_details_by_id])
         dealer_sentiment = ' '.join([dealer.sentiment for dealer in dealer_details_by_id])
         # Return a list of dealer short name
-        return HttpResponse(dealer_review, dealer_sentiment)
+        return HttpResponse(dealer_review + dealer_sentiment)
         #return render(request, 'djangoapp/dealer_details.html', context)
 
 
