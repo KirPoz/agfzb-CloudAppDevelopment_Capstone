@@ -37,7 +37,19 @@ def get_request(url, **kwargs):
 
 # Create a `post_request` to make HTTP POST requests
 # e.g., response = requests.post(url, params=kwargs, json=payload)
-
+def post_request(url, json_payload, **kwargs):
+    print(kwargs)
+    print("GET from {} ".format(url))
+    print(f"{json_payload}")
+    try:
+        # Call get method of requests library with URL and parameters
+        response = requests.post(url, params=kwargs, json=json_payload)
+    except:
+        # If any error occurs
+        print("Network exception occurred")
+    print(f"With status {response.status_code}")
+    print(f"Response: {response.text}")
+    
 
 # Create a get_dealers_from_cf method to get dealers from a cloud function
 # def get_dealers_from_cf(url, **kwargs):
@@ -163,14 +175,16 @@ def analyze_review_sentiments(text=None):
         authenticator=authenticator)
 
     natural_language_understanding.set_service_url(URL_LT)
-        
-    response = natural_language_understanding.analyze(
-        text=text,
-        features=Features(
-            keywords=KeywordsOptions(emotion=True, sentiment=True, limit = 1)
-            ),
-        language = 'en').get_result()
-        
+    try: 
+        response = natural_language_understanding.analyze(
+            text=text,
+            features=Features(
+                keywords=KeywordsOptions(emotion=True, sentiment=True, limit = 1)
+                ),
+            language = 'en').get_result()
+    except:
+        print("Network exception occurred")   
+
     return response['keywords'][0]['sentiment']['label']
 
 
