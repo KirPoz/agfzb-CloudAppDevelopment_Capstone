@@ -10,6 +10,7 @@ from requests.auth import HTTPBasicAuth
 def get_request(url, **kwargs):
     print(kwargs)
     print("GET from {} ".format(url))
+    api_key = None
     try:
         # Call get method of requests library with URL and parameters
         #response = requests.get(url, headers={'Content-Type': 'application/json'},params=kwargs)
@@ -149,6 +150,9 @@ def get_dealer_reviews_from_cf(url=None, dealerId=None):
 # def analyze_review_sentiments(text):
 # - Call get_request() with specified arguments
 # - Get the returned sentiment label such as Positive or Negative
+    def analyze_review_sentiments(text=None):
+        
+
 
 
 
