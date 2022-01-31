@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
-from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf, get_dealers_by_state, get_dealers_by_id
+from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf, get_dealers_by_state, get_dealers_by_id, post_request
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -164,12 +164,17 @@ def get_dealer_details(request, dealer_id=None):
             user = request.user
             # Check Authentication
             if user.is_authenticated:
-                review["time"] = datetime.utcnow().isoformat()
                 review["id"] = dealer_id
-                review["name"] = 11
+                review["name"] = "Upkar Lidder"
                 review["dealership"] = 11
+                review["purchase"] = false
+                review["purchase_date"] = datetime.utcnow().isoformat()
                 review["review"] = "This is a great car dealer"
-                review["purchase"] = False
+
+                json_payload["review"] = review
+                url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership/review"
+                post_request(url, json_payload, dealerId=dealer_id)
+                return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
             else:
                 # Redirect to show_exam_result with the submission id
                 return redirect('djangoapp:login')
