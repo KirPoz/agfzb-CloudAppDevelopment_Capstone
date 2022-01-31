@@ -165,8 +165,8 @@ def get_dealer_details(request, dealer_id=None):
             # Check Authentication
             if user.is_authenticated:
                 review["id"] = dealer_id
-                review["name"] = "Upkar Lidder"
-                review["dealership"] = 11
+                review["name"] = request.user.username
+                review["dealership"] = dealer_id
                 review["purchase"] = false
                 review["purchase_date"] = datetime.utcnow().isoformat()
                 review["review"] = "This is a great car dealer"
