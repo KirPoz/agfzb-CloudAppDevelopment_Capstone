@@ -153,4 +153,28 @@ def get_dealer_details(request, dealer_id=None):
 # Create a `add_review` view to submit a review
 # def add_review(request, dealer_id):
 # ...
+    def add_review(request, dealer_id):
+        context = {}
+        # If it is a GET request, just render the registration page
+        if request.method == 'GET':
+            return render(request, 'djangoapp/add_review.html', context)
+        # If it is a POST request
+        elif request.method == 'POST':
+            # Get user object
+            user = request.user
+            # Check Authentication
+            if user.is_authenticated:
+                review["time"] = datetime.utcnow().isoformat()
+                review["id"] = dealer_id
+                review["name"] = 11
+                review["dealership"] = 11
+                review["review"] = "This is a great car dealer"
+                review["purchase"] = False
+            else:
+                # Redirect to show_exam_result with the submission id
+                return redirect('djangoapp:login')
+
+
+
+
 
