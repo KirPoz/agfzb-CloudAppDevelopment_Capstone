@@ -15,10 +15,10 @@ logger = logging.getLogger(__name__)
 
 
 # Create your views here.
-def index(request):
-    context = {}
-    if request.method == "GET":
-        return render(request, 'djangoapp/index.html', context)
+#def index(request):
+#    context = {}
+#    if request.method == "GET":
+#        return render(request, 'djangoapp/index.html', context)
 
 # Create an `about` view to render a static about page
 def about(request):
@@ -100,15 +100,38 @@ def registration_request(request):
 #        return render(request, 'djangoapp/index.html', context)
 
 # All dealer
+#def get_dealerships(request):
+#    context = {}
+#    if request.method == "GET":
+#        url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership"
+#        # Get dealers from the URL
+#        dealerships = get_dealers_from_cf(url)
+#        # Concat all dealer's short name
+#        dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
+#        # Return a list of dealer short name
+#        return HttpResponse(dealer_names)
+
 def get_dealerships(request):
+    context = {}
     if request.method == "GET":
         url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership"
         # Get dealers from the URL
         dealerships = get_dealers_from_cf(url)
-        # Concat all dealer's short name
-        dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
+        # Get dealers
+        for dealer in dealerships:
+            context = {
+                'address': dealer.address,
+                'city': dealer.city,
+                'full_name': dealer.full_name,
+                'id': dealer.id,
+                'lat': dealer.lat,
+                'long': dealer.long,
+                'short_name': dealer.short_name,
+                'st': dealer.st,
+                'zip': dealer.zip
+            }
         # Return a list of dealer short name
-        return HttpResponse(dealer_names)
+        return render(request, 'djangoapp/index.html', context)
 
 # State 
 #def get_dealerships(request):
