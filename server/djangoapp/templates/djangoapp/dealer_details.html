@@ -43,7 +43,12 @@
     </header>
     <main>
          <!-- Add reviews as cards -->
-         <h3>Reviews for Sux-Ex Car Dealership </h3>
+        <h3>
+            Reviews for
+            {% for info in dealerships_info %}
+                {{info.full_name }}
+            {% endfor %}
+        </h3>
          <div class="card-columns">
             {% for reviews in dealer_details_list %}
                 <div class="card" style="width: 20rem;">

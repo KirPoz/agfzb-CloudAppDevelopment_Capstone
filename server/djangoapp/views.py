@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 # from .models import related models
 from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf, get_dealers_by_state, get_dealers_by_id, post_request
+from .models import CarDealer, CarMake, CarModel
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -164,14 +165,17 @@ def get_dealerships(request):
 #        #return render(request, 'djangoapp/dealer_details.html', context)
 
 def get_dealer_details(request, dealer_id=None):
+    context = {}
     if request.method == "GET":
-        context = {}
-        url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/review"
+        url_review = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/review"
+        url_dealer = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership"
         # Get dealers from the URL
-        dealer_details_list = get_dealer_reviews_from_cf(url = url, dealerId = dealer_id)
+        dealer_details_list = get_dealer_reviews_from_cf(url = url_review, dealerId = dealer_id)
+        dealerships_info = get_dealers_by_id(url = url_dealer, dealerId = dealer_id)
         # Get dealers review
         context = {
-            'dealer_details_list':dealer_details_list
+            'dealer_details_list':dealer_details_list,
+            'dealerships_info':dealerships_info,
         }
         return render(request, 'djangoapp/dealer_details.html', context)
 
@@ -179,10 +183,18 @@ def get_dealer_details(request, dealer_id=None):
 # Create a `add_review` view to submit a review
 # def add_review(request, dealer_id):
 # ...
-def add_review(request, dealer_id):
+def add_review(request, dealer_id=None):
     context = {}
+    url_dealer = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership"
     # If it is a GET request, just render the registration page
     if request.method == 'GET':
+        dealerships_info = get_dealers_by_id(url = url_dealer, dealerId = dealer_id)
+        cars = CarModel.objects.all().filter(dealer_id = dealer_id),
+        context = {
+            "dealer_id": dealer_id,
+            'dealerships_info': dealerships_info,
+            "cars": cars,
+        }
         return render(request, 'djangoapp/add_review.html', context)
     # If it is a POST request
     elif request.method == 'POST':
