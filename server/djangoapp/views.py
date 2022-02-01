@@ -151,17 +151,29 @@ def get_dealerships(request):
 # Create a `get_dealer_details` view to render the reviews of a dealer
 # def get_dealer_details(request, dealer_id):
 # ...
+#def get_dealer_details(request, dealer_id=None):
+#    if request.method == "GET":
+#        url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/review"
+#        # Get dealers from the URL
+#        dealer_details_by_id = get_dealer_reviews_from_cf(url = url, dealerId = dealer_id)
+#        # Concat all dealer's short name
+#        dealer_review = ' '.join([dealer.review for dealer in dealer_details_by_id])
+#        dealer_sentiment = ' '.join([dealer.sentiment for dealer in dealer_details_by_id])
+#        # Return a list of dealer short name
+#        return HttpResponse(dealer_review + dealer_sentiment)
+#        #return render(request, 'djangoapp/dealer_details.html', context)
+
 def get_dealer_details(request, dealer_id=None):
     if request.method == "GET":
+        context = {}
         url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/review"
         # Get dealers from the URL
-        dealer_details_by_id = get_dealer_reviews_from_cf(url = url, dealerId = dealer_id)
-        # Concat all dealer's short name
-        dealer_review = ' '.join([dealer.review for dealer in dealer_details_by_id])
-        dealer_sentiment = ' '.join([dealer.sentiment for dealer in dealer_details_by_id])
-        # Return a list of dealer short name
-        return HttpResponse(dealer_review + dealer_sentiment)
-        #return render(request, 'djangoapp/dealer_details.html', context)
+        dealer_details_list = get_dealer_reviews_from_cf(url = url, dealerId = dealer_id)
+        # Get dealers review
+        context = {
+            'dealer_details_list':dealer_details_list
+        }
+        return render(request, 'djangoapp/dealer_details.html', context)
 
 
 # Create a `add_review` view to submit a review
