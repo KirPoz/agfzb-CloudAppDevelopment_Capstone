@@ -182,10 +182,12 @@ def analyze_review_sentiments(text=None):
                 keywords=KeywordsOptions(emotion=True, sentiment=True, limit = 1)
                 ),
             language = 'en').get_result()
+        return response['keywords'][0]['sentiment']['label']
     except:
         print("Network exception occurred")   
+    
 
-    return response['keywords'][0]['sentiment']['label']
+    
 
 
 
