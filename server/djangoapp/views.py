@@ -116,20 +116,11 @@ def get_dealerships(request):
     if request.method == "GET":
         url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership"
         # Get dealers from the URL
-        dealerships = get_dealers_from_cf(url)
+        dealership_list = get_dealers_from_cf(url)
         # Get dealers
-        for dealer in dealerships:
-            context = {
-                'address': dealer.address,
-                'city': dealer.city,
-                'full_name': dealer.full_name,
-                'id': dealer.id,
-                'lat': dealer.lat,
-                'long': dealer.long,
-                'short_name': dealer.short_name,
-                'st': dealer.st,
-                'zip': dealer.zip
-            }
+        context = {
+            'dealership_list':dealership_list
+        }
         # Return a list of dealer short name
         return render(request, 'djangoapp/index.html', context)
 

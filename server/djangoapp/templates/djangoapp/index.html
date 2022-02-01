@@ -47,7 +47,32 @@
             </nav>
         </header>
         <main>
-                <!--Add a dealer table here -->
+            <!--Add a dealer table here -->
+            <table class="table" id="table">
+                <thead>
+                    <tr>
+                        <th data-field="id">ID</th>
+                        <th data-field="full_name">Dealer Name</th>
+                        <th data-field="city">City</th>
+                        <th data-field="address">Address</th>
+                        <th data-field="zip">Zip</th>
+                        <th data-field="st">State</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dealer in dealership_list %}
+                        <tr>
+                            <td>{{dealer.id}}</td>
+                            <td>{{dealer.full_name}}</td>
+                            <td>{{dealer.city}}</td>
+                            <td>{{dealer.address}}</td>
+                            <td>{{dealer.zip}}</td>
+                            <td>{{dealer.st}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
         </main>
 
     </body>
