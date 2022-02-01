@@ -43,9 +43,10 @@
     </header>
     <main>
          <!-- Add reviews as cards -->
+         <h2>Reviews for Sux-Ex Car Dealership </h2>
          <div class="card-columns">
             {% for reviews in dealer_details_list %}
-                <div class="card">
+                <div class="card" style="width: 20rem;">
                     {%if reviews.sentiment == 'positive'%}
                         <img class="card-img-left" src="{{MEDIA_URL}}/emoji/positive.png" width="30px" height="30px" alt="Course image">
                     {% elif reviews.sentiment == 'neutral' %}
