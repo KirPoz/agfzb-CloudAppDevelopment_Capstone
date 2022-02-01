@@ -47,10 +47,10 @@
             {% for reviews in dealer_details_list %}
                 <div class="card">
                     <img class="card-img-left">
-                    <p class="card-text">{{reviews.car_make}}</p>
-                    <p class="card-text">{{reviews.car_model}}</p>
+                    <p class="card-text">{{reviews.car_make}}, {{reviews.car_model}}</p>
                     <p class="card-text">{{reviews.car_year}}</p>
                     <p class="card-text">{{reviews.review}}</p>
+                    <p class="card-text">{{reviews.sentiment}}</p>
                 </div>
             {% endfor %}
          </div>

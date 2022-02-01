@@ -10,8 +10,10 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
-APIKEY_LT = os.environ.get('APIKEY_LT_ENV', "not found")
-URL_LT = os.environ.get('URL_LT_ENV', "not found")
+#APIKEY_LT = os.environ.get('APIKEY_LT_ENV', "not found")
+#URL_LT = os.environ.get('URL_LT_ENV', "not found")
+APIKEY_LT = '2grHinWJE5oo888f1L9XI99D-heih9Wkab0Ax9oBLiLC'
+URL_LT = 'https://api.eu-gb.natural-language-understanding.watson.cloud.ibm.com/instances/cff8c18e-b69a-4bed-8af2-a389b05b2134'
 VERSION_LT='2021-08-01'
 
 
