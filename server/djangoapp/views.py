@@ -100,15 +100,15 @@ def registration_request(request):
 #        return render(request, 'djangoapp/index.html', context)
 
 # All dealer
-#def get_dealerships(request):
-#    if request.method == "GET":
-#        url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership"
-#        # Get dealers from the URL
-#        dealerships = get_dealers_from_cf(url)
-#        # Concat all dealer's short name
-#        dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
-#        # Return a list of dealer short name
-#        return HttpResponse(dealer_names)
+def get_dealerships(request):
+    if request.method == "GET":
+        url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership"
+        # Get dealers from the URL
+        dealerships = get_dealers_from_cf(url)
+        # Concat all dealer's short name
+        dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
+        # Return a list of dealer short name
+        return HttpResponse(dealer_names)
 
 # State 
 #def get_dealerships(request):
@@ -153,31 +153,31 @@ def get_dealer_details(request, dealer_id=None):
 # Create a `add_review` view to submit a review
 # def add_review(request, dealer_id):
 # ...
-    def add_review(request, dealer_id):
-        context = {}
-        # If it is a GET request, just render the registration page
-        if request.method == 'GET':
-            return render(request, 'djangoapp/add_review.html', context)
-        # If it is a POST request
-        elif request.method == 'POST':
-            # Get user object
-            user = request.user
-            # Check Authentication
-            if user.is_authenticated:
-                review["id"] = dealer_id
-                review["name"] = request.user.username
-                review["dealership"] = dealer_id
-                review["purchase"] = false
-                review["purchase_date"] = datetime.utcnow().isoformat()
-                review["review"] = "This is a great car dealer"
+def add_review(request, dealer_id):
+    context = {}
+    # If it is a GET request, just render the registration page
+    if request.method == 'GET':
+        return render(request, 'djangoapp/add_review.html', context)
+    # If it is a POST request
+    elif request.method == 'POST':
+        # Get user object
+        user = request.user
+        # Check Authentication
+        if user.is_authenticated:
+            review["id"] = dealer_id
+            review["name"] = request.user.username
+            review["dealership"] = dealer_id
+            review["purchase"] = false
+            review["purchase_date"] = datetime.utcnow().isoformat()
+            review["review"] = "This is a great car dealer"
 
-                json_payload["review"] = review
-                url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership/review"
-                post_request(url, json_payload, dealerId=dealer_id)
-                return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
-            else:
-                # Redirect to show_exam_result with the submission id
-                return redirect('djangoapp:login')
+            json_payload["review"] = review
+            url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership/review"
+            post_request(url, json_payload, dealerId=dealer_id)
+            return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
+        else:
+            # Redirect to show_exam_result with the submission id
+            return redirect('djangoapp:login')
 
 
 
