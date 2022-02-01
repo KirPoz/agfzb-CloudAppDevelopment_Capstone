@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
@@ -189,7 +188,7 @@ def add_review(request, dealer_id=None):
     # If it is a GET request, just render the registration page
     if request.method == 'GET':
         dealerships_info = get_dealers_by_id(url = url_dealer, dealerId = dealer_id)
-        cars = CarModel.objects.all().filter(dealer_id = dealer_id),
+        cars = CarModel.objects.all().filter(dealer_id = dealer_id)
         context = {
             "dealer_id": dealer_id,
             'dealerships_info': dealerships_info,
