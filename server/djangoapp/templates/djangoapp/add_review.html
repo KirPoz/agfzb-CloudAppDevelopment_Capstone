@@ -8,6 +8,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
+    
 
 </head>
 <body>
@@ -53,10 +54,9 @@
                 {{info.full_name }}
             {% endfor %}
         </h3>
-        <p class="text-dark">{{dealer_id}}</p>
         <form action="{% url 'djangoapp:add_review' dealer_id%}" method="post">
             <div class="form-group">
-                <label for="exampleInputEmail1">Enter the review content:</label>
+                <label for="content">Enter the review content:</label>
                 <textarea class="form-control" id="content" name="content"  placeholder="Write here" rows="2" required></textarea>
             </div>
             <div class="form-check">
@@ -69,19 +69,25 @@
                     ? (select purchased car information below if checked)
                 </label>
             </div>
-
-            {% for car in cars %}
-                    <p>A: {{car.car_name}}</p>
-            {% endfor %}
-            <select name="car" id="car" class="form-select" required>
-                {% for car in cars %}
-                    <option selected value={{car.id}}>{{car.car_name}}-{{car.car_make.car_name}}-{{ car.car_year|date:"Y" }}</option>
-                {% endfor %}
-           </select>
+            <div>
+                <label for="content">Select your car (model-make-year):</label>
+                <select name="car" id="car" class="form-select" required>
+                    {% for car in cars %}
+                        <option selected value={{car.id}}>{{car.car_name}}-{{car.car_make.car_name}}-{{ car.car_year|date:"Y" }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="content">Select your purchase date:</label>
+                <input class="date-own form-control" type="text" name="purchasedate" id="purchasedate">
+            </div>
 
         </form>
-
     </main>
-
 </body>
+<script type="text/javascript">
+    $('.date-own').datepicker({
+       format: 'mm/dd/yyyy'
+     });
+</script>
 </html>
