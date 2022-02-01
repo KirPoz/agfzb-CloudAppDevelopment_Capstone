@@ -47,21 +47,22 @@
          <div class="card-columns">
             {% for reviews in dealer_details_list %}
                 <div class="card" style="width: 20rem;">
-                    {%if reviews.sentiment == 'positive'%}
-                        <img class="card-img-left" src="{{MEDIA_URL}}/emoji/positive.png" width="30px" height="30px" alt="Course image">
-                    {% elif reviews.sentiment == 'neutral' %}
-                        <img class="card-img-left" src="{{MEDIA_URL}}/emoji/neutral.png" width="30px" height="30px" alt="Course image">
-                    {% elif reviews.sentiment == 'negative' %}
-                        <img class="card-img-left" src="{{MEDIA_URL}}/emoji/negative.png" width="30px" height="30px" alt="Course image">
-                    {% else %}
-                        <p class="text-dark">{{ reviews.sentiment }}</p>
-                    {% endif %}
-
-                    <img class="card-img-left">
-                    <p class="card-text">{{reviews.car_make}}, {{reviews.car_model}}</p>
-                    <p class="card-text">{{reviews.car_year}}</p>
-                    <p class="card-text">{{reviews.review}}</p>
-                    <p class="card-text">{{reviews.sentiment}}</p>
+                    <div class="card-header">
+                        {%if reviews.sentiment == 'positive'%}
+                            <img class="card-img-left" src="{{MEDIA_URL}}/emoji/positive.png" width="30px" height="30px" alt="Course image">
+                        {% elif reviews.sentiment == 'neutral' %}
+                            <img class="card-img-left" src="{{MEDIA_URL}}/emoji/neutral.png" width="30px" height="30px" alt="Course image">
+                        {% elif reviews.sentiment == 'negative' %}
+                            <img class="card-img-left" src="{{MEDIA_URL}}/emoji/negative.png" width="30px" height="30px" alt="Course image">
+                        {% else %}
+                            <p class="text-dark">{{ reviews.sentiment }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{reviews.car_make}}, {{reviews.car_model}}</h5>
+                        <h5 class="card-title">{{reviews.car_year}}</h5>
+                        <p class="card-text">{{reviews.review}}</p>
+                    </div>
                 </div>
             {% endfor %}
          </div>
