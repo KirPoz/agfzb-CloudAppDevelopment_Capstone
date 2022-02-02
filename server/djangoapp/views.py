@@ -15,10 +15,6 @@ logger = logging.getLogger(__name__)
 
 
 # Create your views here.
-#def index(request):
-#    context = {}
-#    if request.method == "GET":
-#        return render(request, 'djangoapp/index.html', context)
 
 # Create an `about` view to render a static about page
 def about(request):
@@ -201,17 +197,26 @@ def add_review(request, dealer_id=None):
         user = request.user
         # Check Authentication
         if user.is_authenticated:
-            review["id"] = dealer_id
-            review["name"] = request.user.username
-            review["dealership"] = dealer_id
-            review["purchase"] = false
-            review["purchase_date"] = datetime.utcnow().isoformat()
-            review["review"] = "This is a great car dealer"
+            car = CarModel.objects.get(pk=request.POST['car'])
+            review ={
+                #"id" = dealer_id
+                "name": request.user.username,
+                "review": request.POST['content'],
+                "dealership": dealer_id,
+                "purchase": request.POST.get("purchasecheck"),
+                "purchase_date": datetime.strptime(request.POST['purchasedate'], "%m/%d/%Y").isoformat(),
+                #datetime.utcnow().isoformat() datetime.strptime(form.get("purchasedate"), "%m/%d/%Y").isoformat()
+                "car": car.car_name,
+                "car_make": car.car_make.car_name,
+                "car_year": car.car_year.strftime("%Y"),
+            }
 
-            json_payload["review"] = review
+            #json_payload["review"] = review
+            print(f"{review}")
+
             url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership/review"
-            post_request(url, json_payload, dealerId=dealer_id)
-            return render(request, 'djangoapp/add_review.html', context)
+            #post_request(url, json_payload, dealerId=dealer_id)
+            return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
         else:
             # Redirect to show_exam_result with the submission id
             return redirect('djangoapp:login')
