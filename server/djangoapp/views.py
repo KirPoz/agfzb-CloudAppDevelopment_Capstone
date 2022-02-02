@@ -217,8 +217,8 @@ def add_review(request, dealer_id=None):
                 "review": review
             } 
 
-            url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership/review"
-            post_request(url, json_payload, dealerId=dealer_id)
+            url_post_review = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/postreview"
+            post_request(url=url_post_review, json_payload = json_payload, dealerId=dealer_id)
             return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
         else:
             # Redirect to show_exam_result with the submission id
