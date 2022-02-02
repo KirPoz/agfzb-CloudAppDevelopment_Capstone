@@ -196,21 +196,23 @@ def add_review(request, dealer_id=None):
         # Get user object
         user = request.user
         # Check Authentication
-        if user.is_authenticated:
-            car = CarModel.objects.get(pk=request.POST['car'])
-            review ={
-                #"id" = dealer_id
-                "name": request.user.username,
-                "review": request.POST['content'],
-                "dealership": dealer_id,
-                "purchase": request.POST.get("purchasecheck"),
-                "purchase_date": datetime.strptime(request.POST['purchasedate'], "%m/%d/%Y").isoformat(),
-                #datetime.utcnow().isoformat() datetime.strptime(form.get("purchasedate"), "%m/%d/%Y").isoformat()
-                "car": car.car_name,
-                "car_make": car.car_make.car_name,
-                "car_year": car.car_year.strftime("%Y"),
-            }
+        if user.is_authenticated: 
+            review ={}
+            #review["id"] = dealer_id
+            review["name"] = request.user.username
+            review["review"] = request.POST['content']
+            review["dealership"]= dealer_id
 
+            if request.POST.get("purchasecheck") == 'on':
+                car = CarModel.objects.get(pk=request.POST['car'])
+                review["purchase"] = 'true'
+                review["purchase_date"]= datetime.strptime(request.POST['purchasedate'], "%m/%d/%Y").isoformat()
+                review["car"] = car.car_name
+                review["car_make"] = car.car_make.car_name
+                review["car_year"] = car.car_year.strftime("%Y") 
+            else:
+                review["purchase"]= 'false'
+                
             #json_payload["review"] = review
             print(f"{review}")
 
