@@ -222,7 +222,7 @@ def add_review(request, dealer_id=None):
             return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
         else:
             # Redirect to show_exam_result with the submission id
-            return redirect('djangoapp:login')
+            return redirect('djangoapp:registration')
 
 
 

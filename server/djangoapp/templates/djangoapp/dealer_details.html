@@ -21,6 +21,9 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
                     <li>
+                        {% for info in dealerships_info %}
+                            <a class="btn btn-dark" href="{% url 'djangoapp:add_review' info.id %}">Add review</a>
+                        {% endfor %}
                          <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
                          <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
                     </li>
