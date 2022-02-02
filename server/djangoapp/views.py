@@ -205,19 +205,20 @@ def add_review(request, dealer_id=None):
 
             if request.POST.get("purchasecheck") == 'on':
                 car = CarModel.objects.get(pk=request.POST['car'])
-                review["purchase"] = 'true'
+                review["purchase"] = True
                 review["purchase_date"]= datetime.strptime(request.POST['purchasedate'], "%m/%d/%Y").isoformat()
                 review["car"] = car.car_name
                 review["car_make"] = car.car_make.car_name
                 review["car_year"] = car.car_year.strftime("%Y") 
             else:
-                review["purchase"]= 'false'
+                review["purchase"]= False
                 
-            #json_payload["review"] = review
-            print(f"{review}")
+            json_payload = {
+                "review": review
+            } 
 
             url = "https://164cb19c.eu-gb.apigw.appdomain.cloud/api/dealership/review"
-            #post_request(url, json_payload, dealerId=dealer_id)
+            post_request(url, json_payload, dealerId=dealer_id)
             return redirect("djangoapp:dealer_details", dealer_id=dealer_id)
         else:
             # Redirect to show_exam_result with the submission id
