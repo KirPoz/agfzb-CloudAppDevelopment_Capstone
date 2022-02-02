@@ -23,7 +23,7 @@ async function main(params) {
                 if (dbData.docs.length == 0) {
                     throw new Error("The database is empty");
                 } else {
-                    return {dbData: dbData.docs}
+                    return {rows: dbData.docs}
                 }
             } catch (error) {
                 return {
@@ -31,7 +31,25 @@ async function main(params) {
                     "Error message": error.message
                 }
             }
-        } else {
+        } else if (params.DEALERID) {
+            var dealerid = params.DEALERID;
+            dealerid = dealerid.replace(/[^a-zA-Z0-9]/g, '');
+            //dealerid = Number(dealerid);
+            try{
+                let dbData = await dbDealerships.find({selector: {id: {"$eq": Number(dealerid)}}});
+                if (dbData.docs.length == 0) {
+                    throw new Error("The database is empty");
+                } else {
+                    return {rows: dbData.docs}
+                }
+            } catch (error) {
+                return {
+                    "Error status code":  "404",
+                    "Error message": error.message
+                }
+            }
+            
+        }else {
             try {
                 // extract all the data, including the document bodies
                 let dbData = await dbDealerships.list({include_docs: true})
@@ -42,9 +60,9 @@ async function main(params) {
                 } else {
                     // response.rows is an array with a 'doc' attribute for each document
                     let bdList = await dbData.rows.map((row) => {
-                        return row.doc
+                        return row
                     });
-                    return {bdList: bdList}
+                    return {rows: bdList}
                 }
             } catch (error) {
                 return {

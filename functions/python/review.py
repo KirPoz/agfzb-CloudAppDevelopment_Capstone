@@ -40,7 +40,7 @@ def main(dict):
         query = Query(my_database, selector = {"dealership": {'$eq': int(dealershipId)}}, 
                     fields= ['id','name','dealership','review','purchase','purchase_date',
                                 'car_make','car_model','car_year'])
-        return {"listRew": query.result[:]}   
+        return {"rows": query.result[:]}   
     except:
         return {
             "statusCode": 404,
